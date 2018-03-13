@@ -1,0 +1,7 @@
+- type: replace
+  path: /releases/name=os-conf
+  value:
+    name: os-conf
+    version: 19
+    url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=19
+    sha1: f515406949ee0bba0329d1ce4a7eb1679521eabd

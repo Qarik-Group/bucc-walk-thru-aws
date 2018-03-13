@@ -1,0 +1,21 @@
+- type: replace
+  path: /instance_groups/name=jumpbox/jobs/-
+  value:
+    name: pre-start-script
+    release: os-conf
+    properties:
+      script: |-
+          #!/bin/bash
+
+          apt-get update
+          apt-get install git ruby wget tmux python3-pip -y
+          pip3 install awscli
+          wget -q -O - https://raw.githubusercontent.com/starkandwayne/homebrew-cf/master/public.key | apt-key add -
+          echo "deb http://apt.starkandwayne.com stable main" | tee /etc/apt/sources.list.d/starkandwayne.list
+          apt-get update
+          apt-get install bosh-cli credhub-cli cf-cli terraform jq direnv hub -y
+
+          cat > /etc/profile.d/git-aliases.sh <<EOF
+          alias gl="git pull"
+          alias gp="git push"
+          EOF

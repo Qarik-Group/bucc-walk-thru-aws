@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -eu
+
+ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+envname=$(basename $ENVDIR)
+echo "Updating $envname..."
+cd $ENVDIR/../..
+
+# don't want 'bosh create-env' to use jumpbox to update jumpbox
+export BOSH_ALL_PROXY=
+
+action=${1:-create-env}
+shift || echo "Defaulting to $action action"
+flags=
+if [[ "$action" == "int" ]]; then
+  flags="--var-errs"
+else
+  flags="--state $ENVDIR/state.json"
+fi
+bosh ${action} src/jumpbox-deployment/jumpbox.yml \
+  -o src/jumpbox-deployment/aws/cpi.yml \
+  -o $ENVDIR/operators/releases.yml \
+  -o $ENVDIR/operators/persistent-homes.yml \
+  -o $ENVDIR/operators/pre-start-script.yml \
+  -l <($ENVDIR/bin/jumpbox-vars-from-terraform.sh) \
+  --vars-store $ENVDIR/creds.yml \
+  $flags "$@"

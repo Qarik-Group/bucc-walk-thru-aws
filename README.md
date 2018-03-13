@@ -1,5 +1,7 @@
 # Walk thru of BUCC on AWS
 
+This is an example repository. All the state files created from `terraform` and `bosh` are listed in `.gitignore`. After going thru this walk thru, you would copy + paste liberally into your own private Git repository that would allow you to commit your state files.
+
 ## Configure and terraform AWS
 
 ```plain
@@ -29,11 +31,12 @@ This will create a new VPC, a NAT to allow egress Internet access, and two subne
 
 ## Deploy Jumpbox
 
-This repository already has a submodule to [jumpbox-deployment](https://github.com/cppforlife/jumpbox-deployment), but first ensure you've got the latest:
+This repository already has a submodule to [jumpbox-deployment](https://github.com/cppforlife/jumpbox-deployment), and some wrapper scripts. You are ready to go.
 
 ```plain
-cd src/jumpbox-deployment
-git checkout master
-git pull
-cd -
+git submodule update --init
+envs/jumpbox/bin/update
 ```
+
+This will create a tiny EC2 VM, with a 64G persistent disk, and a `jumpbox` user whose home folder is placed upon that large persistent disk. If you ever need to enlarge the disk, edit `envs/jumpbox/operators/persistent-homes.yml`, change `disk_size: 65_536` to a larger number, and run `envs/jumpbox/bin/update` again.
+
