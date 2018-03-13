@@ -20,7 +20,7 @@ else
 fi
 bosh ${action} src/jumpbox-deployment/jumpbox.yml \
   -o src/jumpbox-deployment/aws/cpi.yml \
-  -l <($ENVDIR/bin/jumpbox-vars-from-terraform.sh) \
+  -l <($ENVDIR/bin/vars-from-terraform.sh) \
   -o $ENVDIR/operators/releases.yml \
   -o $ENVDIR/operators/persistent-homes.yml \
   -o $ENVDIR/operators/pre-start-script.yml \

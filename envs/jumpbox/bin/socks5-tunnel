@@ -1,0 +1,10 @@
+#!/bin/bash
+
+PORT=${PORT:-9999}
+
+ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+echo "Starting SOCKS5 on port $PORT..."
+echo "export BOSH_ALL_PROXY=socks5://localhost:$PORT"
+echo "export CREDHUB_PROXY=socks5://localhost:$PORT"
+$ENVDIR/bin/ssh -N -D ${PORT}

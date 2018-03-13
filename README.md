@@ -45,14 +45,57 @@ Looking inside `envs/jumpbox/bin/update` you can see that it is a wrapper script
 ```plain
 bosh create-env src/jumpbox-deployment/jumpbox.yml \
   -o src/jumpbox-deployment/aws/cpi.yml \
-  -l <(envs/jumpbox/bin/jumpbox-vars-from-terraform.sh) \
+  -l <(envs/jumpbox/bin/vars-from-terraform.sh) \
   ...
 ```
 
 If you ever need to enlarge the disk, edit `envs/jumpbox/operators/persistent-homes.yml`, change `disk_size: 65_536` to a larger number, and run `envs/jumpbox/bin/update` again. That's the beauty of `bosh create-env`.
 
+## SSH into Jumpbox
+
 To SSH into jumpbox we will need to store the private key of the `jumpbox` into a file, etc. There is a helper script for this:
 
 ```plain
 envs/jumpbox/bin/ssh
+```
+
+You can see that the `jumpbox` user's home directory is placed on the `/var/vcap/store` persistent disk:
+
+```plain
+jumpbox/0:~$ pwd
+/var/vcap/store/home/jumpbox
+```
+
+Our pr
+
+```plain
+envs/jumpbox/bin/socks5-tunnel
+```
+
+The output will look like:
+
+```plain
+Starting SOCKS5 on port 9999...
+export BOSH_ALL_PROXY=socks5://localhost:9999
+export CREDHUB_PROXY=socks5://localhost:9999
+Unauthorized use is strictly prohibited. All access and activity
+is subject to logging and monitoring.
+```
+
+```plain
+export bucc_project_root=envs/bucc
+source <(src/bucc/bin/bucc env)
+bucc up --cpi aws --spot-instance
+```
+
+This will create `envs/bucc/vars.yml` stub for you to populate. Fortunately, we have a helper script to get most of it:
+
+```plain
+envs/bucc/bin/vars-from-terraform.sh > envs/bucc/vars.yml
+```
+
+Now run `bucc up` again:
+
+```plain
+bucc up
 ```
