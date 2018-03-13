@@ -38,5 +38,21 @@ git submodule update --init
 envs/jumpbox/bin/update
 ```
 
-This will create a tiny EC2 VM, with a 64G persistent disk, and a `jumpbox` user whose home folder is placed upon that large persistent disk. If you ever need to enlarge the disk, edit `envs/jumpbox/operators/persistent-homes.yml`, change `disk_size: 65_536` to a larger number, and run `envs/jumpbox/bin/update` again.
+This will create a tiny EC2 VM, with a 64G persistent disk, and a `jumpbox` user whose home folder is placed upon that large persistent disk. 
 
+Looking inside `envs/jumpbox/bin/update` you can see that it is a wrapper script to use `bosh create-env`. Variables from the terraform output are consumed via the `envs/jumpbox/bin/jumpbox-vars-from-terraform.sh` helper script.
+
+```plain
+bosh create-env src/jumpbox-deployment/jumpbox.yml \
+  -o src/jumpbox-deployment/aws/cpi.yml \
+  -l <(envs/jumpbox/bin/jumpbox-vars-from-terraform.sh) \
+  ...
+```
+
+If you ever need to enlarge the disk, edit `envs/jumpbox/operators/persistent-homes.yml`, change `disk_size: 65_536` to a larger number, and run `envs/jumpbox/bin/update` again. That's the beauty of `bosh create-env`.
+
+To SSH into jumpbox we will need to store the private key of the `jumpbox` into a file, etc. There is a helper script for this:
+
+```plain
+envs/jumpbox/bin/ssh
+```

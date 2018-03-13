@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -eu
+
+ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+cd $ENVDIR/../..
+
+mkdir -p $ENVDIR/ssh
+chmod 700 $ENVDIR/ssh
+
+bosh int $ENVDIR/creds.yml --path /jumpbox_ssh/private_key > envs/ssh/jumpbox.pem
+chmod 600 envs/ssh/jumpbox.pem
+
+tfoutput="terraform output --state=envs/aws/terraform.tfstate"
+
+ssh -A jumpbox@$($tfoutput box.jumpbox.public_ip) \
+  -i envs/ssh/jumpbox.pem \
+  "$@"
