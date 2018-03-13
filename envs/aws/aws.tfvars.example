@@ -7,7 +7,7 @@ jumpbox_ip   = ""
 
 aws_vpc_name   = "bucc-walk-thru"
 aws_key_name   = "bucc-walk-thru"
-aws_key_file   = "envs/ssh/bucc-walk-thru"
+aws_key_file   = "envs/ssh/bucc-walk-thru.pem"
 
 # Options
 aws_region   = "us-east-2"
