@@ -1,0 +1,19 @@
+# AWS credentials
+aws_access_key = ""
+aws_secret_key = ""
+
+# Create an elastic IP and populate IP here
+jumpbox_ip   = ""
+
+aws_vpc_name   = "bucc-walk-thru"
+aws_key_name   = "bucc-walk-thru"
+aws_key_file   = "envs/ssh/bucc-walk-thru"
+
+# Options
+aws_region   = "us-east-2"
+network      = "10.10"
+
+# Availability Zones
+aws_az1      = "a"
+aws_az2      = "b"
+aws_az3      = "c"

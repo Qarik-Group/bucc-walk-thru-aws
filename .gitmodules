@@ -1,0 +1,6 @@
+[submodule "src/bucc"]
+	path = src/bucc
+	url = https://github.com/starkandwayne/bucc
+[submodule "src/jumpbox-deployment"]
+	path = src/jumpbox-deployment
+	url = https://github.com/cppforlife/jumpbox-deployment

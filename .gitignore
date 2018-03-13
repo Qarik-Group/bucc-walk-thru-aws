@@ -1,0 +1,5 @@
+*.tfvars
+*.tfplan
+*.tfstate*
+.terraform
+envs/ssh
