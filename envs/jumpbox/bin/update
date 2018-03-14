@@ -23,6 +23,7 @@ bosh ${action} src/jumpbox-deployment/jumpbox.yml \
   -l <($ENVDIR/bin/vars-from-terraform.sh) \
   -o $ENVDIR/operators/releases.yml \
   -o $ENVDIR/operators/persistent-homes.yml \
+  -o $ENVDIR/operators/spot-instance.yml \
   -o $ENVDIR/operators/pre-start-script.yml \
   --vars-store $ENVDIR/creds.yml \
   $flags "$@"

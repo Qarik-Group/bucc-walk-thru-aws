@@ -19,4 +19,6 @@ internal_gw:       $($tfoutput aws.network.prefix).0.1
 internal_ip:       $($tfoutput aws.network.prefix).0.4
 
 external_ip:       $($tfoutput box.jumpbox.public_ip)
+
+spot_bid_price: 1
 YAML
