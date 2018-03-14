@@ -8,7 +8,7 @@ echo "Updating $envname..."
 
 export bucc_project_root=$ENVDIR
 cd $ENVDIR/../..
-pwd
+
 source <(src/bucc/bin/bucc env)
 
 action=${1:-up}

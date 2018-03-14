@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+envname=$(basename $ENVDIR)
+echo "Updating $envname..."
+
+cd $ENVDIR
+
+make all
+

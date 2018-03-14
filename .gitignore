@@ -2,7 +2,7 @@
 *.tfplan
 *.tfstate*
 .terraform
-envs/ssh
+envs/ssh/*
 creds.yml
 vars.yml
 state*
