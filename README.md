@@ -51,6 +51,8 @@ bosh create-env src/jumpbox-deployment/jumpbox.yml \
 
 If you ever need to enlarge the disk, edit `envs/jumpbox/operators/persistent-homes.yml`, change `disk_size: 65_536` to a larger number, and run `envs/jumpbox/bin/update` again. That's the beauty of `bosh create-env`.
 
+If you get any complaints about subnet availability zones, like `can't use multiple availability zones: subnet in us-east-2c, VM in us-east-2b` then edit `envs/jumpbox/bin/vars-from-terraform.sh` line `az:` for the subnet's suffix letter.
+
 ## SSH into Jumpbox
 
 To SSH into jumpbox we will need to store the private key of the `jumpbox` into a file, etc. There is a helper script for this:
@@ -99,3 +101,6 @@ Now run `bucc up` again:
 ```plain
 bucc up
 ```
+
+If you get any complaints about subnet availability zones, like `can't use multiple availability zones: subnet in us-east-2c, VM in us-east-2b` then edit `envs/bucc/bin/vars-from-terraform.sh` line `az:` for the subnet's suffix letter, and run `envs/bucc/bin/vars-from-terraform.sh > envs/bucc/vars.yml` again.
+
