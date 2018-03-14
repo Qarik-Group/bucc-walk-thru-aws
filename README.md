@@ -2,6 +2,13 @@
 
 This is an example repository. All the state files created from `terraform` and `bosh` are listed in `.gitignore`. After going thru this walk thru, you would copy + paste liberally into your own private Git repository that would allow you to commit your state files.
 
+## Clone this repo
+
+```plain
+git clone https://github.com/starkandwayne/bucc-walk-thru-aws
+cd bucc-walk-thru-aws
+```
+
 ## Configure and terraform AWS
 
 ```plain
