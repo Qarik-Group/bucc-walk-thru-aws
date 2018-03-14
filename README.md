@@ -176,3 +176,41 @@ Using environment '10.10.1.4' as client 'admin'
 Name                                     Version  OS             CPI  CID
 bosh-aws-xen-hvm-ubuntu-trusty-go_agent  3541.9   ubuntu-trusty  -    ami-02f7c167 light
 ```
+
+## Delete Everything
+
+To discover all your running deployments
+
+```plain
+export bucc_project_root=envs/bucc
+source <(envs/bucc/bin/env)
+
+bosh deployments
+```
+
+To delete each one:
+
+```plain
+bosh delete-deployment -d <name>
+```
+
+To destroy your BUCC/BOSH VM and its persistent disk:
+
+```plain
+bosh clean-up --all
+bucc down
+```
+
+To destroy your jumpbox and its persistent disk:
+
+```plain
+envs/jumpbox/bin/update delete-env
+```
+
+To destroy your AWS VPC, subnets, etc:
+
+```plain
+cd envs/aws
+make destroy
+cd -
+```
