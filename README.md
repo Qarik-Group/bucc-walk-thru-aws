@@ -288,10 +288,10 @@ bosh deployments
 To delete each one:
 
 ```plain
-bosh delete-deployment -d <name>
+bosh delete-deployment -d zookeeper
 ```
 
-To destroy your BUCC/BOSH VM and its persistent disk:
+To destroy your BUCC/BOSH VM and its persistent disk, and the orphaned disks from your deleted zookeeper deployment:
 
 ```plain
 bosh clean-up --all
