@@ -24,5 +24,13 @@ if [[ "${SKIP_CREATE_ENV:-x}" == "x" ]]; then
 fi
 
 if [[ "${action}" == "up" ]]; then
+  source <(src/bucc/bin/bucc env)
+
+  bosh -n update-cloud-config src/bucc/src/bosh-deployment/aws/cloud-config.yml \
+    -o   $ENVDIR/cloud-config-operators/cloud-config-networking.yml \
+    -o   $ENVDIR/cloud-config-operators/cloud-config-cf-needs.yml \
+    -o <($ENVDIR/cloud-config-operators/cloud-config-spot-reservation.sh) \
+    -l <($ENVDIR/cloud-config-operators/vars-from-terraform.sh)
+
   bosh upload-stemcell https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent
 fi

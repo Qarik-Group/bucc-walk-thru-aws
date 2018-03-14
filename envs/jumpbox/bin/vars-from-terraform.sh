@@ -13,12 +13,12 @@ default_security_groups: [$($tfoutput aws.network.sg.dmz)]
 region:            $($tfoutput aws.network.region)
 
 subnet_id:         $($tfoutput aws.network.dmz.subnet)
-az:                $($tfoutput aws.network.region)b
+az:                $($tfoutput aws.network.region)c
 internal_cidr:     $($tfoutput aws.network.prefix).0.0/24
 internal_gw:       $($tfoutput aws.network.prefix).0.1
 internal_ip:       $($tfoutput aws.network.prefix).0.4
 
 external_ip:       $($tfoutput box.jumpbox.public_ip)
 
-spot_bid_price: 1
+spot_bid_price: 10
 YAML

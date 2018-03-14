@@ -138,7 +138,6 @@ After it has bootstrapped your BUCC/BOSH from either the jumpbox or your local m
 export BOSH_ALL_PROXY=socks5://localhost:9999
 export CREDHUB_PROXY=socks5://localhost:9999
 
-export bucc_project_root=envs/bucc
 source <(envs/bucc/bin/env)
 
 bosh env
@@ -181,6 +180,27 @@ Name                                     Version  OS             CPI  CID
 bosh-aws-xen-hvm-ubuntu-trusty-go_agent  3541.9   ubuntu-trusty  -    ami-02f7c167 light
 ```
 
+And it pre-populates the cloud config with our two subnets and with vm_types that all use AWS spot instances:
+
+```plain
+$ bosh cloud-config
+...
+vm_types:
+- cloud_properties:
+    ephemeral_disk:
+      size: 25000
+    instance_type: m4.large
+    spot_bid_price: 10
+```
+
+## Deploy something
+
+```plain
+source <(envs/bucc/bin/env)
+
+bosh deploy -d zookeeper <(curl https://raw.githubusercontent.com/cppforlife/zookeeper-release/master/manifests/zookeeper.yml)
+```
+
 ## Upgrade Everything
 
 ```plain
@@ -192,12 +212,34 @@ cd -
 envs/bucc/bin/update-upon-jumpbox
 ```
 
+## Backup & Restore
+
+You can start cutting backups of your BUCC and its BOSH deployments immediately.
+
+Read https://www.starkandwayne.com/blog/bucc-bbr-finally/ to learn more about the inclusion of BOSH Backup & Restore (BBR) into your BUCC VM.
+
+### Backup within Jumpbox
+
+BBR does not currently support SOCKS5, so we will request the backup from inside the jumpbox.
+
+```plain
+envs/jumpbox/bin/ssh
+```
+
+```plain
+mkdir -p ~/workspace/backups
+cd ~/workspace/backups
+source <(~/workspace/walk-thru/envs/bucc/bin/env)
+bucc bbr backup
+```
+
+
+
 ## Destroy Everything
 
 To discover all your running deployments
 
 ```plain
-export bucc_project_root=envs/bucc
 source <(envs/bucc/bin/env)
 
 bosh deployments

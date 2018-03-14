@@ -1,0 +1,38 @@
+- type: replace
+  path: /networks/name=default/subnets/0/static?
+  value: [10.10.1.240-10.10.1.254]
+
+- type: replace
+  path: /networks/name=default/subnets/0/reserved?
+  value: [((internal_gw))/29]
+
+
+- type: replace
+  path: /networks/-
+  value:
+    name: dmz
+    type: manual
+    subnets:
+    - range: 10.10.0.0/24
+      gateway: 10.10.0.1
+      azs: [z1, z2, z3]
+      dns: [8.8.8.8]
+      reserved: [10.10.0.1/29, 10.10.0.64]
+      static: [10.10.0.240-10.10.0.254]
+      cloud_properties:
+        subnet: ((dmz_subnet_id))
+
+- type: replace
+  path: /networks/-
+  value:
+    name: cf-services
+    type: manual
+    subnets:
+    - range: 10.10.2.0/24
+      gateway: 10.10.2.1
+      azs: [z1, z2, z3]
+      dns: [8.8.8.8]
+      reserved: [10.10.2.1/30]
+      static: [10.10.2.240-10.10.2.254]
+      cloud_properties:
+        subnet: ((cf_services_subnet_id))

@@ -1,0 +1,108 @@
+- type: replace
+  path: /vm_types/-
+  value:
+    name: minimal
+    cloud_properties:
+      instance_type: m4.large
+      ephemeral_disk:
+        size: 10240
+
+- type: replace
+  path: /vm_types/-
+  value:
+    name: sharedcpu
+    cloud_properties:
+      instance_type: t2.small
+      ephemeral_disk:
+        size: 10240
+
+- type: replace
+  path: /vm_types/-
+  value:
+    name: small
+    cloud_properties:
+      instance_type: t2.small
+      ephemeral_disk:
+        size: 10240
+
+- type: replace
+  path: /vm_types/-
+  value:
+    name: small-highmem
+    cloud_properties:
+      instance_type: m4.xlarge
+      ephemeral_disk:
+        size: 10240
+
+- type: replace
+  path: /disk_types/-
+  value:
+    name: 5GB
+    disk_size: 5_120
+
+- type: replace
+  path: /disk_types/-
+  value:
+    name: 10GB
+    disk_size: 10_240
+
+- type: replace
+  path: /disk_types/-
+  value:
+    name: 100GB
+    disk_size: 102_400
+
+# - type: replace
+#   path: /vm_extensions/-
+#   value:
+#     name: cf-router-network-properties
+#
+# - type: replace
+#   path: /vm_extensions/-
+#   value:
+#     name: cf-tcp-router-network-properties
+#
+# - type: replace
+#   path: /vm_extensions/-
+#   value:
+#     name: diego-ssh-proxy-network-properties
+
+- type: replace
+  path: /vm_extensions?/-
+  value:
+    name: 50GB_ephemeral_disk
+    cloud_properties:
+      disk: 51_200
+
+- type: replace
+  path: /vm_extensions?/-
+  value:
+    name: 100GB_ephemeral_disk
+    cloud_properties:
+      disk: 102_400
+
+- type: replace
+  path: /vm_extensions?/-
+  value:
+    name: ssh-proxy-and-router-lb
+    cloud_properties:
+      ports:
+      - host: 80
+      - host: 443
+      - host: 2222
+
+- type: replace
+  path: /vm_extensions?/-
+  value:
+    name: cf-tcp-router-network-properties
+    cloud_properties:
+      ports:
+      - host: 1024-1123
+
+- type: replace
+  path: /vm_extensions?/-
+  value:
+    name: credhub-lb
+    cloud_properties:
+      ports:
+      - host: 8845
