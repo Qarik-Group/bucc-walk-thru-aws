@@ -68,7 +68,7 @@ jumpbox/0:~$ pwd
 /var/vcap/store/home/jumpbox
 ```
 
-Our pr
+## SOCKS5 magic tunnel thru Jumpbox
 
 ```plain
 envs/jumpbox/bin/socks5-tunnel
@@ -83,6 +83,9 @@ export CREDHUB_PROXY=socks5://localhost:9999
 Unauthorized use is strictly prohibited. All access and activity
 is subject to logging and monitoring.
 ```
+
+## Deploying BUCC
+
 
 ```plain
 export bucc_project_root=envs/bucc
@@ -103,4 +106,6 @@ bucc up
 ```
 
 If you get any complaints about subnet availability zones, like `can't use multiple availability zones: subnet in us-east-2c, VM in us-east-2b` then edit `envs/bucc/bin/vars-from-terraform.sh` line `az:` for the subnet's suffix letter, and run `envs/bucc/bin/vars-from-terraform.sh > envs/bucc/vars.yml` again.
+
+BUT... you are about download a few hundred GB of BOSH releases, AND THEN upload them thru the jumpbox to your new BUCC/BOSH VM on AWS. Either it will take a few hours or you can move to the jumpbox and run the commands there.
 

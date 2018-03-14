@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+envname=$(basename $ENVDIR)
+echo "Updating $envname..."
+
+export bucc_project_root=$ENVDIR
+cd $ENVDIR/../..
+pwd
+source <(src/bucc/bin/bucc env)
+
+action=${1:-up}
+if [[ "${SKIP_CREATE_ENV:-x}" == "x" ]]; then
+  if [[ "$action" == "recreate" ]]; then
+    mv $ENVDIR/state/state.json{,.backup}
+    cat $ENVDIR/state/state.json.backup | \
+      jq -r '. + {"current_vm_cid": "", "current_stemcell_id": ""}' \
+      > $ENVDIR/state/state.json
+    action=up
+  fi
+  src/bucc/bin/bucc ${action}
+fi
+
+if [[ "${action}" == "up" ]]; then
+  bosh upload-stemcell https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+fi
