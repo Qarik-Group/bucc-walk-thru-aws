@@ -261,8 +261,9 @@ Name  Release(s)  Stemcell(s)  Team(s)  Cloud Config
 But if you check the AWS console you'll see the ZooKeeper cluster is still running. Let's restore the BOSH/BUCC data.
 
 ```plain
-backup_dir=$(echo ~/workspace/backups/*)
-bucc bbr restore --artifact-path=${backup_dir}
+cd ~/workspace/backups/
+last_backup=$(find . -type d -regex ".+_.+Z" | sort -r | head -n1)
+bucc bbr restore --artifact-path=${last_backup}
 ```
 
 Our BOSH now remembers its ZooKeeper cluster:
