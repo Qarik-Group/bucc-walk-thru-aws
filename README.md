@@ -109,11 +109,10 @@ If you get any complaints about subnet availability zones, like `can't use multi
 
 BUT... you are about download a few hundred GB of BOSH releases, AND THEN upload them thru the jumpbox to your new BUCC/BOSH VM on AWS. Either it will take a few hours or you can move to the jumpbox and run the commands there.
 
-So let's use the jumpbox.
+So let's use the jumpbox. For your convenience, there is a nice wrapper script which uploads this project to your jumpbox, runs `bucc up`, and then downloads the modified state files created by `bucc up`/`bosh create-env` back into this project locally:
 
 ```plain
-envs/jumpbox/bin/rsync to . walk-thru
-envs/jumpbox/bin/ssh
+envs/bucc/bin/update-upon-jumpbox
 ```
 
 Inside the SSH session:
@@ -121,12 +120,6 @@ Inside the SSH session:
 ```plain
 cd ~/workspace/walk-thru
 envs/bucc/bin/update
-```
-
-Exit the SSH session, and `rsync` back the state files created by `bucc up`/`bosh create-env`:
-
-```plain
-envs/jumpbox/bin/rsync from . walk-thru
 ```
 
 To access your BOSH/CredHub, remember to have your SOCKS5 magic tunnel running in another terminal:

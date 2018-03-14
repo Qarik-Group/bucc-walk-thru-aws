@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eu
+
+ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+envname=$(basename $ENVDIR)
+echo "Updating $envname via jumpbox..."
+cd $ENVDIR/../..
+
+envs/jumpbox/bin/rsync to . walk-thru
+envs/jumpbox/bin/ssh "~/workspace/walk-thru/envs/$envname/bin/update"
+envs/jumpbox/bin/rsync from . walk-thru
