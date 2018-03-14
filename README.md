@@ -275,6 +275,14 @@ Name       Release(s)       Stemcell(s)                                     Team
 zookeeper  zookeeper/0.0.7  bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3541.9  -        latest
 ```
 
+## Sync State Files
+
+In the example above we rebuilt our BUCC/BOSH from within the Jumpbox. This means that our local laptop does not have the updated state files. From your laptop, sync them back:
+
+```plain
+envs/jumpbox/bin/rsync from . walk-thru
+```
+
 ## Destroy Everything
 
 To discover all your running deployments
