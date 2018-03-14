@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -eux
+
+local_path=${1:?USAGE: rsync local-path target-path}
+target_path=/var/vcap/store/home/jumpbox/workspace/${2:?USAGE: rsync local-path target-workspace-path}
+
+shift; shift
+
+ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+cd $ENVDIR/../..
+
+mkdir -p $ENVDIR/ssh
+chmod 700 $ENVDIR/ssh
+
+bosh int $ENVDIR/creds.yml --path /jumpbox_ssh/private_key > envs/ssh/jumpbox.pem
+chmod 600 envs/ssh/jumpbox.pem
+
+jumpbox_ip=$(terraform output --state=envs/aws/terraform.tfstate box.jumpbox.public_ip)
+
+rsync -Pav \
+  --exclude .git \
+  --exclude .terraform \
+  --exclude bin/credhub \
+  --exclude bin/bosh \
+  --exclude bin/fly \
+  -e "ssh -i envs/ssh/jumpbox.pem" \
+  ${local_path} \
+  jumpbox@${jumpbox_ip}:${target_path}

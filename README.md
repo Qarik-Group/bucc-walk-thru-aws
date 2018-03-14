@@ -109,3 +109,23 @@ If you get any complaints about subnet availability zones, like `can't use multi
 
 BUT... you are about download a few hundred GB of BOSH releases, AND THEN upload them thru the jumpbox to your new BUCC/BOSH VM on AWS. Either it will take a few hours or you can move to the jumpbox and run the commands there.
 
+So let's use the jumpbox.
+
+```
+envs/jumpbox/bin/rsync . walk-thru
+envs/jumpbox/bin/ssh
+```
+
+Inside the SSH session:
+
+```
+cd ~/workspace/walk-thru
+envs/bucc/bin/update
+```
+
+After it has bootstrapped your BUCC/BOSH from either the jumpbox or your local machine:
+
+```plain
+source <(envs/bucc/bin/env)
+bosh env
+```

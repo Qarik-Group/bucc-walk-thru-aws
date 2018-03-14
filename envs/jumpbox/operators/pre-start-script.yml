@@ -19,3 +19,6 @@
           alias gl="git pull"
           alias gp="git push"
           EOF
+
+          mkdir -p /var/vcap/store/home/jumpbox/workspace
+          chown jumpbox:jumpbox /var/vcap/store/home/jumpbox/workspace
