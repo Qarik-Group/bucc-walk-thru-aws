@@ -111,21 +111,75 @@ BUT... you are about download a few hundred GB of BOSH releases, AND THEN upload
 
 So let's use the jumpbox.
 
-```
-envs/jumpbox/bin/rsync . walk-thru
+```plain
+envs/jumpbox/bin/rsync to . walk-thru
 envs/jumpbox/bin/ssh
 ```
 
 Inside the SSH session:
 
-```
+```plain
 cd ~/workspace/walk-thru
 envs/bucc/bin/update
+```
+
+Exit the SSH session, and `rsync` back the state files created by `bucc up`/`bosh create-env`:
+
+```plain
+envs/jumpbox/bin/rsync from . walk-thru
+```
+
+To access your BOSH/CredHub, remember to have your SOCKS5 magic tunnel running in another terminal:
+
+```plain
+envs/jumpbox/bin/socks5-tunnel
 ```
 
 After it has bootstrapped your BUCC/BOSH from either the jumpbox or your local machine:
 
 ```plain
+export BOSH_ALL_PROXY=socks5://localhost:9999
+export CREDHUB_PROXY=socks5://localhost:9999
+
+export bucc_project_root=envs/bucc
 source <(envs/bucc/bin/env)
+
 bosh env
+```
+
+If you get a connection error like below, your SOCKS5 tunnel is no longer up. Run it again.
+
+```plain
+Fetching info:
+  Performing request GET 'https://10.10.1.4:25555/info':
+    Performing GET request:
+      Retry: Get https://10.10.1.4:25555/info: dial tcp [::1]:9999: getsockopt: connection refused
+```
+
+Instead, the output should look like:
+
+```plain
+Using environment '10.10.1.4' as client 'admin'
+
+Name      bucc-walk-thru
+UUID      71fec1e3-d34b-4940-aba8-e53e8c848dd1
+Version   264.7.0 (00000000)
+CPI       aws_cpi
+Features  compiled_package_cache: disabled
+          config_server: enabled
+          dns: disabled
+          snapshots: disabled
+User      admin
+
+Succeeded
+```
+
+The `envs/bucc/bin/update` script also pre-populated a stemcell:
+
+```plain
+$ bosh stemcells
+Using environment '10.10.1.4' as client 'admin'
+
+Name                                     Version  OS             CPI  CID
+bosh-aws-xen-hvm-ubuntu-trusty-go_agent  3541.9   ubuntu-trusty  -    ami-02f7c167 light
 ```
