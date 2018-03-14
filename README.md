@@ -177,7 +177,18 @@ Name                                     Version  OS             CPI  CID
 bosh-aws-xen-hvm-ubuntu-trusty-go_agent  3541.9   ubuntu-trusty  -    ami-02f7c167 light
 ```
 
-## Delete Everything
+## Upgrade Everything
+
+```plain
+cd src/bucc
+git checkout develop
+git pull
+cd -
+
+envs/bucc/bin/update-upon-jumpbox
+```
+
+## Destroy Everything
 
 To discover all your running deployments
 
