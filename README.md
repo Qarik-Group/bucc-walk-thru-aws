@@ -233,7 +233,47 @@ source <(~/workspace/walk-thru/envs/bucc/bin/env)
 bucc bbr backup
 ```
 
+### Restore within Jumpbox
 
+Our backup is meaningless if we haven't tried to restore it. So, let's do it.
+
+From within the jumpbox session above, destroy the BUCC VM:
+
+```plain
+bucc down
+```
+
+Now re-deploy it without any fancy pre-populated stemcells etc:
+
+```plain
+bucc up
+```
+
+When it comes up, it is empty. It has no stemcells nor deployments.
+
+```plain
+$ bosh deployments
+Name  Release(s)  Stemcell(s)  Team(s)  Cloud Config
+
+0 deployments
+```
+
+But if you check the AWS console you'll see the ZooKeeper cluster is still running. Let's restore the BOSH/BUCC data.
+
+```plain
+backup_dir=$(echo ~/workspace/backups/*)
+bucc bbr restore --artifact-path=${backup_dir}
+```
+
+Our BOSH now remembers its ZooKeeper cluster:
+
+```plain
+$ bosh deployments
+Using environment '10.10.1.4' as client 'admin'
+
+Name       Release(s)       Stemcell(s)                                     Team(s)  Cloud Config
+zookeeper  zookeeper/0.0.7  bosh-aws-xen-hvm-ubuntu-trusty-go_agent/3541.9  -        latest
+```
 
 ## Destroy Everything
 
