@@ -22,7 +22,7 @@ Populate `envs/aws/aws.tfvars` with your AWS API credentials.
 The private key will automatically be downloaded by your browser. Copy it into `envs/ssh/bucc-walk-thru.pem`:
 
 ```plain
-cp ~/Downloads/bucc-walk-thru.pem envs/ssh/bucc-walk-thru.pem
+mv ~/Downloads/bucc-walk-thru.pem envs/ssh/bucc-walk-thru.pem
 ```
 
 [Allocate an elastic IP](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#Addresses:sort=PublicIp) and store the IP in `envs/aws/aws.tfvars` at `jumpbox_ip = "<your-ip>"`. This will be used for your jumpbox/bastion host later.
