@@ -1,11 +1,12 @@
 #!/bin/bash
 
-set -eux
+set -eu
 
-local_path=${1:?USAGE: rsync local-path target-path}
-target_path=/var/vcap/store/home/jumpbox/workspace/${2:?USAGE: rsync local-path target-workspace-path}
+direction=${1:?USAGE: rsync [to|from] local-path remote-workspace-path}
+local_path=${2:?USAGE: rsync [to|from] local-path remote-workspace-path}
+remote_workspace_path=/var/vcap/store/home/jumpbox/workspace/${3:?USAGE: rsync [to|from] local-path remote-workspace-path}
 
-shift; shift
+shift; shift; shift
 
 ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 cd $ENVDIR/../..
@@ -18,12 +19,29 @@ chmod 600 envs/ssh/jumpbox.pem
 
 jumpbox_ip=$(terraform output --state=envs/aws/terraform.tfstate box.jumpbox.public_ip)
 
-rsync -Pav \
-  --exclude .git \
-  --exclude .terraform \
-  --exclude bin/credhub \
-  --exclude bin/bosh \
-  --exclude bin/fly \
-  -e "ssh -i envs/ssh/jumpbox.pem" \
-  ${local_path} \
-  jumpbox@${jumpbox_ip}:${target_path}
+if [[ "$direction" == "to" ]]; then
+  set -x
+  rsync -Pav \
+    --exclude .git \
+    --exclude .terraform \
+    --exclude bin/credhub \
+    --exclude bin/bosh \
+    --exclude bin/fly \
+    -e "ssh -i envs/ssh/jumpbox.pem" \
+    ${local_path} \
+    jumpbox@${jumpbox_ip}:${remote_workspace_path}
+elif [[ "$direction" == "from" ]]; then
+  set -x
+  rsync -Pav \
+    --exclude .git \
+    --exclude .terraform \
+    --exclude bin/credhub \
+    --exclude bin/bosh \
+    --exclude bin/fly \
+    -e "ssh -i envs/ssh/jumpbox.pem" \
+    jumpbox@${jumpbox_ip}:${remote_workspace_path}/ \
+    ${local_path}
+else
+  >&2 echo "USAGE: rsync [to|from] local-path target-path"
+  exit 1
+fi
