@@ -1,6 +1,8 @@
 # Walk thru of BUCC on AWS
 
-This is an example repository. All the state files created from `terraform` and `bosh` are listed in `.gitignore`. After going thru this walk thru, you would copy + paste liberally into your own private Git repository that would allow you to commit your state files.
+This is an example repository that compliaments a walk-thru video of provisioning AWS networking, a public Jumpbox, a private BOSH/UAA/CredHub/Concourse ([BUCC](https://github.com/starkandwayne/bucc)), and an example 5-node ZooKeeper cluster.
+
+All the state files created from `terraform` and `bosh` are listed in `.gitignore`. After going thru this walk thru, you would copy + paste liberally into your own private Git repository that would allow you to commit your state files.
 
 ## Clone this repo
 
