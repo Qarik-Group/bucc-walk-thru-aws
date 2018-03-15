@@ -125,8 +125,9 @@ resource "aws_route_table" "internal" {
 # DMZ - De-militarized Zone for NAT box ONLY
 #
 resource "aws_subnet" "dmz" {
-  vpc_id     = "${aws_vpc.default.id}"
-  cidr_block = "${var.network}.0.0/24"
+  vpc_id            = "${aws_vpc.default.id}"
+  cidr_block        = "${var.network}.0.0/24"
+  availability_zone = "${var.aws_region}${var.aws_az1}"
   tags { Name = "${var.aws_vpc_name}-dmz" }
 }
 resource "aws_route_table_association" "dmz" {
@@ -136,13 +137,17 @@ resource "aws_route_table_association" "dmz" {
 output "aws.network.dmz.subnet" {
   value = "${aws_subnet.dmz.id}"
 }
+output "aws.network.dmz.az" {
+  value = "${var.aws_region}${var.aws_az1}"
+}
 
 ###############################################################
 # Private - common subnet for deployments, including CF
 #
 resource "aws_subnet" "private" {
-  vpc_id     = "${aws_vpc.default.id}"
-  cidr_block = "${var.network}.1.0/24"
+  vpc_id            = "${aws_vpc.default.id}"
+  cidr_block        = "${var.network}.1.0/24"
+  availability_zone = "${var.aws_region}${var.aws_az2}"
   tags { Name = "${var.aws_vpc_name}-private" }
 }
 resource "aws_route_table_association" "private" {
@@ -152,6 +157,9 @@ resource "aws_route_table_association" "private" {
 output "aws.network.private.subnet" {
   value = "${aws_subnet.private.id}"
 }
+output "aws.network.private.az" {
+  value = "${var.aws_region}${var.aws_az2}"
+}
 
 ###############################################################
 # CF Services - common subnet for deployments, including CF
@@ -159,6 +167,7 @@ output "aws.network.private.subnet" {
 resource "aws_subnet" "cf-services" {
   vpc_id     = "${aws_vpc.default.id}"
   cidr_block = "${var.network}.2.0/24"
+  availability_zone = "${var.aws_region}${var.aws_az3}"
   tags { Name = "${var.aws_vpc_name}-cf-services" }
 }
 resource "aws_route_table_association" "cf-services" {
@@ -167,6 +176,9 @@ resource "aws_route_table_association" "cf-services" {
 }
 output "aws.network.cf-services.subnet" {
   value = "${aws_subnet.cf-services.id}"
+}
+output "aws.network.cf-services.az" {
+  value = "${var.aws_region}${var.aws_az3}"
 }
 
 

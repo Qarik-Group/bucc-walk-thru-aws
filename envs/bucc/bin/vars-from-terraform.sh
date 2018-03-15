@@ -14,7 +14,7 @@ default_security_groups: [$($tfoutput aws.network.sg.dmz), $($tfoutput aws.netwo
 region:            $($tfoutput aws.network.region)
 
 subnet_id:         $($tfoutput aws.network.private.subnet)
-az:                $($tfoutput aws.network.region)c
+az:                $($tfoutput aws.network.private.az)
 internal_cidr:     $($tfoutput aws.network.prefix).1.0/24
 internal_gw:       $($tfoutput aws.network.prefix).1.1
 internal_ip:       $($tfoutput aws.network.prefix).1.4
