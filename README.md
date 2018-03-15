@@ -191,6 +191,8 @@ vm_types:
 
 ## Deploy something
 
+Five-node cluster of Apache ZooKeeper:
+
 ```plain
 source <(envs/bucc/bin/env)
 

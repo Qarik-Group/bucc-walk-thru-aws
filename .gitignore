@@ -6,3 +6,4 @@ envs/ssh/*
 creds.yml
 vars.yml
 state*
+tmp
