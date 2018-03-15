@@ -90,10 +90,8 @@ is subject to logging and monitoring.
 
 ## Deploying BUCC
 
-
 ```plain
-export bucc_project_root=envs/bucc
-source <(src/bucc/bin/bucc env)
+source <(envs/bucc/bin/env)
 bucc up --cpi aws --spot-instance
 ```
 
