@@ -27,6 +27,7 @@ if [[ "$direction" == "to" ]]; then
     --exclude bin/credhub \
     --exclude bin/bosh \
     --exclude bin/fly \
+    --exclude bin/bbr \
     -e "ssh -i envs/ssh/jumpbox.pem" \
     ${local_path} \
     jumpbox@${jumpbox_ip}:${remote_workspace_path}
@@ -38,6 +39,7 @@ elif [[ "$direction" == "from" ]]; then
     --exclude bin/credhub \
     --exclude bin/bosh \
     --exclude bin/fly \
+    --exclude bin/bbr \
     -e "ssh -i envs/ssh/jumpbox.pem" \
     jumpbox@${jumpbox_ip}:${remote_workspace_path}/ \
     ${local_path}
