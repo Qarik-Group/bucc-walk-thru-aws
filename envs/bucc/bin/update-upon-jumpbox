@@ -7,6 +7,7 @@ envname=$(basename $ENVDIR)
 echo "Updating $envname via jumpbox..."
 cd $ENVDIR/../..
 
-envs/jumpbox/bin/rsync to . walk-thru
-envs/jumpbox/bin/ssh -t "~/workspace/walk-thru/envs/$envname/bin/update"
-envs/jumpbox/bin/rsync from . walk-thru
+rootname=$(basename $PWD)
+envs/jumpbox/bin/rsync to . $rootname
+envs/jumpbox/bin/ssh -t "~/workspace/$rootname/envs/$envname/bin/update"
+envs/jumpbox/bin/rsync from . $rootname
