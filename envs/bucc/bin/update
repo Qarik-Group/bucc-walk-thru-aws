@@ -6,7 +6,7 @@ ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 envname=$(basename $ENVDIR)
 echo "Updating $envname..."
 
-export bucc_project_root=$ENVDIR
+export BUCC_PROJECT_ROOT=$ENVDIR
 cd $ENVDIR/../..
 
 source <(src/bucc/bin/bucc env)
@@ -32,5 +32,5 @@ if [[ "${action}" == "up" ]]; then
     -o <($ENVDIR/cloud-config-operators/cloud-config-spot-reservation.sh) \
     -l <($ENVDIR/cloud-config-operators/vars-from-terraform.sh)
 
-  bosh upload-stemcell https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  bosh upload-stemcell https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-xenial-go_agent
 fi

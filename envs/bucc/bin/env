@@ -5,8 +5,8 @@ set -eu
 ENVDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 cd $ENVDIR/../..
 
-export bucc_project_root=${ENVDIR}
+export BUCC_PROJECT_ROOT=${ENVDIR}
 cat <<EOS
-export bucc_project_root=${ENVDIR}
+export BUCC_PROJECT_ROOT=${ENVDIR}
 $(src/bucc/bin/bucc env)
 EOS
